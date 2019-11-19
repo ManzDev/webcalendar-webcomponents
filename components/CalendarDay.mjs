@@ -4,9 +4,8 @@ export class CalendarDay extends HTMLElement {
 
   constructor() {
     super();
-    const date = new Date();
     this.day = this.getAttribute('day') || 1;
-    this.dow = this.getAttribute('dow') || 0;   // American format
+    this.dow = this.getAttribute('dow') || 0; // American format
   }
 
   connectedCallback() {
@@ -52,7 +51,6 @@ export class CalendarDay extends HTMLElement {
 
   isToday() { return this.hasAttribute('today'); }
   todayClass() { return this.isToday() ? 'today' : ''; }
-
 }
 
 customElements.define('calendar-day', CalendarDay);

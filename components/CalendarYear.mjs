@@ -1,4 +1,4 @@
-import { CalendarMonth } from './CalendarMonth.mjs';
+import './CalendarMonth.mjs';
 
 export class CalendarYear extends HTMLElement {
 

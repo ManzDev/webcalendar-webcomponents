@@ -1,7 +1,7 @@
-import { CalendarDay } from './CalendarDay.mjs';
+import './CalendarDay.mjs';  // eslint-disable-line
 
 const MONTH_NAME = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-const paddingDays = day => (day == 0) ? 6 : day - 1;
+const paddingDays = day => (day === 0) ? 6 : day - 1;
 
 export class CalendarMonth extends HTMLElement {
 
@@ -51,7 +51,7 @@ export class CalendarMonth extends HTMLElement {
     `;
   }
 
-  isToday(day, month) { return day == this.today.getDate() && month == this.today.getMonth() + 1; }
+  isToday(day, month) { return day === this.today.getDate() && month === this.today.getMonth() + 1; }
   isTodayProp(day) { return this.isToday(day, this.month) ? 'today' : ''; }
 
   getDays() {
@@ -61,7 +61,7 @@ export class CalendarMonth extends HTMLElement {
     const pad = paddingDays(firstDOW);
     const days = [];
     for (let i = 0; i < pad; i++) {
-      days.push(`<div class="block"></div>`);
+      days.push('<div class="block"></div>');
     }
 
     // month days

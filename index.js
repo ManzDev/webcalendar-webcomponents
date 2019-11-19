@@ -1,2 +1,1 @@
-import { CalendarYear } from './components/CalendarYear.mjs';
-
+import './components/CalendarYear.mjs';
