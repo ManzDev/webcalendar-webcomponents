@@ -1,11 +1,11 @@
+import { DateTime } from 'https://moment.github.io/luxon/es6/luxon.js';
 import './CalendarMonth.mjs';
 
 export class CalendarYear extends HTMLElement {
 
   constructor() {
     super();
-    const date = new Date();
-    this.year = this.getAttribute('year') || date.getFullYear();
+    this.year = this.getAttribute('year') || DateTime.local().year;
   }
 
   connectedCallback() {

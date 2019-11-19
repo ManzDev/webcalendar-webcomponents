@@ -1,3 +1,4 @@
+import { DateTime } from 'https://moment.github.io/luxon/es6/luxon.js';
 import './CalendarDay.mjs';  // eslint-disable-line
 
 const MONTH_NAME = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
@@ -7,10 +8,11 @@ export class CalendarMonth extends HTMLElement {
 
   constructor() {
     super();
-    this.today = new Date();
-    this.month = this.getAttribute('month') || this.today.getMonth() + 1;
-    this.year = this.getAttribute('year') || this.today.getFullYear();
-    this.maxDay = new Date(this.year, this.month, 0).getDate();
+    this.today = DateTime.local();
+    this.month = this.getAttribute('month') || this.today.month;
+    this.year = this.getAttribute('year') || this.today.year;
+    this.firstDay = DateTime.local().set({ month: this.month, year: this.year, day: 1 });
+    this.maxDay = this.firstDay.daysInMonth;
   }
 
   connectedCallback() {
@@ -51,13 +53,16 @@ export class CalendarMonth extends HTMLElement {
     `;
   }
 
-  isToday(day, month) { return day === this.today.getDate() && month === this.today.getMonth() + 1; }
+  isToday(day, month) {
+    return day == this.today.day && month == this.today.month;
+  }
+
   isTodayProp(day) { return this.isToday(day, this.month) ? 'today' : ''; }
 
   getDays() {
 
     // padding days
-    const firstDOW = new Date(this.year, this.month - 1, 1).getDay();
+    const firstDOW = this.firstDay.weekday;
     const pad = paddingDays(firstDOW);
     const days = [];
     for (let i = 0; i < pad; i++) {

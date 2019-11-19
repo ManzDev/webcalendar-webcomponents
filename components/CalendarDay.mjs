@@ -1,5 +1,8 @@
+import { DateTime } from 'https://moment.github.io/luxon/es6/luxon.js';
+
+console.log(DateTime.local());
+
 const DAYS_OF_WEEK = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
-// const LONG_DAYS_OF_WEEK = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
 
 export class CalendarDay extends HTMLElement {
 
