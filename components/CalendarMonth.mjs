@@ -40,10 +40,11 @@ export class CalendarMonth extends HTMLElement {
           font-size: 40px;
           text-align: center;
           padding: 10px 0;
+          margin-bottom: 5px;
         }
       </style>
       <div class="month">
-        <header>${MONTH_NAME[this.month - 1]}</header>
+        <header>📅 ${MONTH_NAME[this.month - 1]}</header>
         <div class="days">
           ${this.getDays()}
         </div>

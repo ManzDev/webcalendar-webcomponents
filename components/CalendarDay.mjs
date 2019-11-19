@@ -1,4 +1,5 @@
 const DAYS_OF_WEEK = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+// const LONG_DAYS_OF_WEEK = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
 
 export class CalendarDay extends HTMLElement {
 
@@ -22,6 +23,8 @@ export class CalendarDay extends HTMLElement {
           background: white;
           border-bottom: 5px solid white;
           margin-bottom: 5px;
+          cursor: pointer;
+          user-select: none;
         }
         .holiday {
           border-bottom-color: red;
@@ -31,6 +34,9 @@ export class CalendarDay extends HTMLElement {
           color: white;
           border-bottom-color: slateblue;
         }
+        .mark {
+          filter: invert(1);
+        }
         .day h4 {
           margin: 0;
           font-size: 42px;
@@ -39,18 +45,26 @@ export class CalendarDay extends HTMLElement {
           color: #888;
         }
       </style>
-      <div class="day ${this.workDayClass(this.dow)} ${this.todayClass()}">
+      <div class="day ${this.getTypeDay(this.dow)} ${this.todayClass()}">
         <h4>${this.day}</h4>
         <span>${DAYS_OF_WEEK[this.dow]}</span>
       </div>
     `;
+
+    this.querySelector('.day').addEventListener('click', () => {
+      this.classList.toggle('mark');
+    });
   }
 
   isWorkDay(day) { return (day > 0 && day < 6); }
-  workDayClass(day) { return this.isWorkDay(day) ? '' : 'holiday'; }
+  getTypeDay(day) {
+    return this.isWorkDay(day) ? 'workday' : 'holiday';
+  }
 
   isToday() { return this.hasAttribute('today'); }
-  todayClass() { return this.isToday() ? 'today' : ''; }
+  todayClass() {
+    return this.isToday() ? 'today' : '';
+  }
 }
 
 customElements.define('calendar-day', CalendarDay);
