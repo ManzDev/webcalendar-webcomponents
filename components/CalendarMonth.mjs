@@ -7,10 +7,9 @@ export class CalendarMonth extends HTMLElement {
 
   constructor() {
     super();
-    const date = new Date();
-    this.today = date;
-    this.month = this.getAttribute('month') || date.getMonth() + 1;
-    this.year = this.getAttribute('year') || date.getFullYear();
+    this.today = new Date();
+    this.month = this.getAttribute('month') || this.today.getMonth() + 1;
+    this.year = this.getAttribute('year') || this.today.getFullYear();
     this.maxDay = new Date(this.year, this.month, 0).getDate();
   }
 

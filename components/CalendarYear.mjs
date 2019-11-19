@@ -32,14 +32,54 @@ export class CalendarYear extends HTMLElement {
         .year > header {
           margin-bottom: 5px;
         }
+        .prev, .next {
+          background: transparent;
+          border: 0;
+          font-size: 18px;
+          color: gold;
+          cursor: pointer;
+        }
       </style>
       <div class="year">
-        <header>${this.year}</header>
+        <header>
+          <button class="prev">Prev</button>
+          ${this.year}
+          <button class="next">Next</button>
+        </header>
         <div class="months">
           ${this.getMonths()}
         </div>
       </div>
     `;
+
+    this.querySelector('.prev').addEventListener('click', () => this.setNewYear(this.year - 1));
+    this.querySelector('.next').addEventListener('click', () => this.setNewYear(this.year + 1));
+  }
+
+  setNewYear(year) {
+    const parent = this.parentElement;
+    const element = document.createElement('calendar-year');
+    element.setAttribute('year', year);
+    this.remove();
+    parent.append(element);
+  }
+
+  static get observedAttributes() {
+    return ['year'];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === 'year') {
+      this.year = Number(newValue);
+    }
+  }
+
+  static set year(y) {
+    this.year = y;
+  }
+
+  static get year() {
+    return this.year;
   }
 
   getMonths() {

@@ -51,10 +51,11 @@ export class CalendarDay extends HTMLElement {
       </div>
     `;
 
-    this.querySelector('.day').addEventListener('click', () => {
-      this.classList.toggle('mark');
-    });
+    // Handlers
+    this.querySelector('.day').addEventListener('click', () => this.onClick());
   }
+
+  onClick() { this.classList.toggle('mark'); }
 
   isWorkDay(day) { return (day > 0 && day < 6); }
   getTypeDay(day) {
