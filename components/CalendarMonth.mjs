@@ -8,6 +8,7 @@ export class CalendarMonth extends HTMLElement {
 
   constructor() {
     super();
+    this.attachShadow({ mode: 'open' });
     this.today = DateTime.local();
     this.month = this.getAttribute('month') || this.today.month;
     this.year = this.getAttribute('year') || this.today.year;
@@ -16,7 +17,7 @@ export class CalendarMonth extends HTMLElement {
   }
 
   connectedCallback() {
-    this.innerHTML = `
+    this.shadowRoot.innerHTML = `
       <style>
         .month {
           width: 550px;

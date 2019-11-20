@@ -5,11 +5,12 @@ export class CalendarYear extends HTMLElement {
 
   constructor() {
     super();
+    this.attachShadow({ mode: 'open' });
     this.year = this.getAttribute('year') || DateTime.local().year;
   }
 
   connectedCallback() {
-    this.innerHTML = `
+    this.shadowRoot.innerHTML = `
       <style>
         .months {
           display: grid;
@@ -29,7 +30,13 @@ export class CalendarYear extends HTMLElement {
             grid-template-columns: 1fr;
           }
         }
-        .year > header {
+        header {
+          background: slateblue;
+          color: white;
+          font-weight: bold;
+          font-size: 40px;
+          text-align: center;
+          padding: 10px 0;
           margin-bottom: 5px;
         }
         .prev, .next {
@@ -52,8 +59,8 @@ export class CalendarYear extends HTMLElement {
       </div>
     `;
 
-    this.querySelector('.prev').addEventListener('click', () => this.setNewYear(this.year - 1));
-    this.querySelector('.next').addEventListener('click', () => this.setNewYear(this.year + 1));
+    this.shadowRoot.querySelector('.prev').addEventListener('click', () => this.setNewYear(this.year - 1));
+    this.shadowRoot.querySelector('.next').addEventListener('click', () => this.setNewYear(this.year + 1));
   }
 
   setNewYear(year) {

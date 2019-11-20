@@ -8,12 +8,13 @@ export class CalendarDay extends HTMLElement {
 
   constructor() {
     super();
+    this.attachShadow({ mode: 'open' });
     this.day = this.getAttribute('day') || 1;
     this.dow = this.getAttribute('dow') || 0; // American format
   }
 
   connectedCallback() {
-    this.innerHTML = `
+    this.shadowRoot.innerHTML = `
       <style>
         .day {
           display: inline-flex;
@@ -55,10 +56,13 @@ export class CalendarDay extends HTMLElement {
     `;
 
     // Handlers
-    this.querySelector('.day').addEventListener('click', () => this.onClick());
+    this.shadowRoot.querySelector('.day').addEventListener('click', () => this.onClick());
+    console.log(this);
   }
 
-  onClick() { this.classList.toggle('mark'); }
+  onClick() {
+    this.shadowRoot.querySelector('.day').classList.toggle('mark');
+  }
 
   isWorkDay(day) { return (day > 0 && day < 6); }
   getTypeDay(day) {
