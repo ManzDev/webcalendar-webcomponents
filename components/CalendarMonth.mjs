@@ -1,5 +1,5 @@
 import { DateTime } from 'https://moment.github.io/luxon/es6/luxon.js';
-import './CalendarDay.mjs';  // eslint-disable-line
+import './CalendarDay.mjs';
 
 const MONTH_NAME = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 const paddingDays = day => (day === 0) ? 6 : day - 1;
