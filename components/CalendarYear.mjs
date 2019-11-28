@@ -1,5 +1,5 @@
-import { LitElement, html, css } from 'https://unpkg.com/lit-element@2.2.1/lit-element.js?module';
-import dayjs from 'https://unpkg.com/dayjs/esm';
+import { LitElement, html, css } from 'lit-element';
+import dayjs from 'dayjs';
 import './CalendarMonth.mjs';
 
 export class CalendarYear extends LitElement {
