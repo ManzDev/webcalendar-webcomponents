@@ -1,7 +1,3 @@
-import { DateTime } from 'https://moment.github.io/luxon/es6/luxon.js';
-
-console.log(DateTime.local());
-
 const DAYS_OF_WEEK = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
 
 export class CalendarDay extends HTMLElement {
@@ -9,7 +5,9 @@ export class CalendarDay extends HTMLElement {
   constructor() {
     super();
     this.day = this.getAttribute('day') || 1;
-    this.dow = this.getAttribute('dow') || 0; // American format
+    // Week of day (American format)
+    this.dow = this.getAttribute('dow') || 0;
+    this.weekday = DAYS_OF_WEEK[this.dow];
   }
 
   connectedCallback() {
@@ -50,7 +48,7 @@ export class CalendarDay extends HTMLElement {
       </style>
       <div class="day ${this.getTypeDay(this.dow)} ${this.todayClass()}">
         <h4>${this.day}</h4>
-        <span>${DAYS_OF_WEEK[this.dow]}</span>
+        <span>${this.weekday}</span>
       </div>
     `;
 

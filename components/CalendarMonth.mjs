@@ -1,18 +1,26 @@
-import { DateTime } from 'https://moment.github.io/luxon/es6/luxon.js';
+import dayjs from 'https://unpkg.com/dayjs/esm';
+import es from 'https://unpkg.com/dayjs/esm/locale/es';
 import './CalendarDay.mjs';
 
-const MONTH_NAME = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 const paddingDays = day => (day === 0) ? 6 : day - 1;
 
 export class CalendarMonth extends HTMLElement {
 
   constructor() {
     super();
-    this.today = DateTime.local();
-    this.month = this.getAttribute('month') || this.today.month;
-    this.year = this.getAttribute('year') || this.today.year;
-    this.firstDay = DateTime.local().set({ month: this.month, year: this.year, day: 1 });
-    this.maxDay = this.firstDay.daysInMonth;
+
+    // Set DayJS spanish locale
+    dayjs.locale('es', es);
+
+    // REAL today
+    this.today = dayjs();
+
+    // This month
+    this.month = this.getAttribute('month') || this.today.month();
+    this.year = this.getAttribute('year') || this.today.year();
+    this.firstDay = dayjs().month(this.month - 1).year(this.year).date(1);
+    this.monthName = this.firstDay.format('MMMM');
+    this.maxDay = this.firstDay.daysInMonth();
   }
 
   connectedCallback() {
@@ -32,7 +40,10 @@ export class CalendarMonth extends HTMLElement {
           height: 100px;
           border-bottom: 5px;
           margin-bottom: 5px;
-          visibility: hidden;
+        }
+        .block.visible {
+          background: #999;
+          border-bottom: 5px solid #000;
         }
         header {
           background: steelblue;
@@ -45,7 +56,7 @@ export class CalendarMonth extends HTMLElement {
         }
       </style>
       <div class="month">
-        <header>📅 ${MONTH_NAME[this.month - 1]}</header>
+        <header>📅 ${this.monthName}</header>
         <div class="days">
           ${this.getDays()}
         </div>
@@ -54,7 +65,7 @@ export class CalendarMonth extends HTMLElement {
   }
 
   isToday(day, month) {
-    return day == this.today.day && month == this.today.month;
+    return day == this.today.date() && month == this.today.month() + 1;
   }
 
   isTodayProp(day) { return this.isToday(day, this.month) ? 'today' : ''; }
@@ -62,16 +73,17 @@ export class CalendarMonth extends HTMLElement {
   getDays() {
 
     // padding days
-    const firstDOW = this.firstDay.weekday;
-    const pad = paddingDays(firstDOW);
+    const firstWeekDay = this.firstDay.day();
+    const padDays = paddingDays(firstWeekDay);
+
     const days = [];
-    for (let i = 0; i < pad; i++) {
-      days.push('<div class="block"></div>');
+    for (let i = 0; i < padDays; i++) {
+      days.push('<div class="block visible"></div>');
     }
 
-    // month days
+    // Month days
     for (let i = 1; i <= this.maxDay; i++) {
-      const weekday = (firstDOW + (i - 1)) % 7;
+      const weekday = (firstWeekDay + (i - 1)) % 7;
       days.push(`<calendar-day day="${i}" dow="${weekday}" ${this.isTodayProp(i)}></calendar-day>`);
     }
 
