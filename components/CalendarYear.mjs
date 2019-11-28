@@ -1,60 +1,72 @@
+import { LitElement, html, css } from 'https://unpkg.com/lit-element@2.2.1/lit-element.js?module';
 import dayjs from 'https://unpkg.com/dayjs/esm';
 import './CalendarMonth.mjs';
 
-export class CalendarYear extends HTMLElement {
+export class CalendarYear extends LitElement {
 
   constructor() {
     super();
-
     this.year = this.getAttribute('year') || dayjs().year();
   }
 
-  connectedCallback() {
-    this.innerHTML = `
-      <style>
-        .months {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          grid-template-rows: repeat(4, 1fr);
-          justify-items: center;
-        }
-        @media screen and (max-width: 1750px) {
-          .months {
-            grid-template-columns: repeat(2, 1fr);
-            grid-template-rows: repeat(6, 1fr);
-          }
-        }
-        @media screen and (max-width: 1200px) {
-          .months {
-            grid-template-columns: repeat(12, 1fr);
-            grid-template-columns: 1fr;
-          }
-        }
-        .year > header {
-          margin-bottom: 5px;
-        }
-        .prev, .next {
-          background: transparent;
-          border: 0;
-          font-size: 18px;
-          color: gold;
-          cursor: pointer;
-        }
-      </style>
+  static get properties() {
+    return {
+      year: { attribute: 'year' }
+    }
+  }
+
+  render() {
+    return html`
       <div class="year">
         <header>
-          <button class="prev">Prev</button>
+          <button class="prev" @click="${() => this.setNewYear(this.year - 1)}">Prev</button>
           ${this.year}
-          <button class="next">Next</button>
+          <button class="next" @click="${() => this.setNewYear(this.year + 1)}">Next</button>
         </header>
         <div class="months">
           ${this.getMonths()}
         </div>
       </div>
     `;
+  }
 
-    this.querySelector('.prev').addEventListener('click', () => this.setNewYear(this.year - 1));
-    this.querySelector('.next').addEventListener('click', () => this.setNewYear(this.year + 1));
+  static get styles() {
+    return css`
+      .months {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+        justify-items: center;
+      }
+      @media screen and (max-width: 1750px) {
+        .months {
+          grid-template-columns: repeat(2, 1fr);
+          grid-template-rows: repeat(6, 1fr);
+        }
+      }
+      @media screen and (max-width: 1200px) {
+        .months {
+          grid-template-columns: repeat(12, 1fr);
+          grid-template-columns: 1fr;
+        }
+      }
+      .year > header {
+        background: purple;
+        color: white;
+        font-weight: bold;
+        font-size: 40px;
+        text-align: center;
+        padding: 10px 0;
+        margin-bottom: 5px;
+      }
+      .prev, .next {
+        background: transparent;
+        border: 0;
+        font-size: 18px;
+        color: gold;
+        cursor: pointer;
+      }
+    `;
   }
 
   setNewYear(year) {
@@ -65,11 +77,8 @@ export class CalendarYear extends HTMLElement {
     parent.append(element);
   }
 
-  static get observedAttributes() {
-    return ['year'];
-  }
-
   attributeChangedCallback(name, oldValue, newValue) {
+    super.attributeChangedCallback(name, oldValue, newValue);
     if (name === 'year') {
       this.year = Number(newValue);
     }
@@ -84,12 +93,15 @@ export class CalendarYear extends HTMLElement {
   }
 
   getMonths() {
-    const months = [];
+
+    const result = [];
+
     for (let i = 1; i <= 12; i++) {
-      months.push(`<calendar-month month="${i}" year="${this.year}"></calendar-month>`);
+      result.push(`<calendar-month month="${i}" year="${this.year}"></calendar-month>`);
     }
 
-    return months.join('');
+    return html(result);
+
   }
 
 }
