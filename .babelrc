@@ -3,7 +3,8 @@
     "@babel/typescript"
   ],
   "plugins": [
-    "@babel/proposal-class-properties",
-    "@babel/proposal-object-rest-spread"
+    ["@babel/transform-object-assign", {}, "parcel-toa"],
+    ["@babel/proposal-class-properties", {}, "parcel-pcp"],
+    ["@babel/proposal-object-rest-spread", {}, "parcel-pors"]
   ]
 }

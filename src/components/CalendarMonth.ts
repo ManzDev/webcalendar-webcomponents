@@ -1,4 +1,4 @@
-import './CalendarDay.js';
+import './CalendarDay.ts';
 
 const MONTH_NAME = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 const paddingDays = (day : number) => (day === 0) ? 6 : day - 1;

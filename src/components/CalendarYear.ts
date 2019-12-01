@@ -1,4 +1,4 @@
-import './CalendarMonth.js';
+import './CalendarMonth.ts';
 
 export class CalendarYear extends HTMLElement {
 
