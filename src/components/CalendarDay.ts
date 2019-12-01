@@ -1,12 +1,14 @@
 const DAYS_OF_WEEK = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
-// const LONG_DAYS_OF_WEEK = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
 
 export class CalendarDay extends HTMLElement {
 
+  day : number;
+  dow : number;
+
   constructor() {
     super();
-    this.day = this.getAttribute('day') || 1;
-    this.dow = this.getAttribute('dow') || 0; // American format
+    this.day = Number(this.getAttribute('day')) || 1;
+    this.dow = Number(this.getAttribute('dow')) || 0; // American format
   }
 
   connectedCallback() {
@@ -52,13 +54,13 @@ export class CalendarDay extends HTMLElement {
     `;
 
     // Handlers
-    this.querySelector('.day').addEventListener('click', () => this.onClick());
+    this.querySelector('.day')!.addEventListener('click', () => this.onClick());
   }
 
   onClick() { this.classList.toggle('mark'); }
 
-  isWorkDay(day) { return (day > 0 && day < 6); }
-  getTypeDay(day) {
+  isWorkDay(day : number) { return (day > 0 && day < 6); }
+  getTypeDay(day : number) {
     return this.isWorkDay(day) ? 'workday' : 'holiday';
   }
 
@@ -68,4 +70,4 @@ export class CalendarDay extends HTMLElement {
   }
 }
 
-customElements.define('calendar-day', CalendarDay);
+// customElements.define('calendar-day', CalendarDay);

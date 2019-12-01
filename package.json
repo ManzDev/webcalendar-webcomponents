@@ -4,12 +4,25 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "live-server ."
+    "init:ts": "tsc --init --declaration --allowSyntheticDefaultImports --target esnext --outDir lib",
+    "dev": "npm-run-all -p dev:*",
+    "dev:babel": "babel --watch src -x '.ts' --out-dir src",
+    "dev:live": "live-server src",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "npm run type-check -- --watch",
+    "build": "npm-run-all build:*",
+    "build:babel": "babel src -x '.ts' --out-dir src",
+    "build:rsync": "rsync -av src dist --exclude '*.ts'"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/cli": "^7.7.4",
+    "@babel/core": "^7.7.4",
+    "@babel/plugin-proposal-class-properties": "^7.7.4",
+    "@babel/plugin-proposal-object-rest-spread": "^7.7.4",
+    "@babel/preset-typescript": "^7.7.4",
     "eslint": "^6.6.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.18.2",
@@ -17,6 +30,8 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "live-server": "^1.2.1",
-    "prettier": "^1.19.1"
+    "npm-run-all": "^4.1.5",
+    "prettier": "^1.19.1",
+    "typescript": "^3.7.2"
   }
 }

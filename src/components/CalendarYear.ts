@@ -1,11 +1,13 @@
-import './CalendarMonth.mjs';
+import './CalendarMonth.js';
 
 export class CalendarYear extends HTMLElement {
+
+  year : number;
 
   constructor() {
     super();
     const date = new Date();
-    this.year = this.getAttribute('year') || date.getFullYear();
+    this.year = Number(this.getAttribute('year')) || date.getFullYear();
   }
 
   connectedCallback() {
@@ -52,29 +54,29 @@ export class CalendarYear extends HTMLElement {
       </div>
     `;
 
-    this.querySelector('.prev').addEventListener('click', () => this.setNewYear(this.year - 1));
-    this.querySelector('.next').addEventListener('click', () => this.setNewYear(this.year + 1));
+    this.querySelector('.prev')!.addEventListener('click', () => this.setNewYear(this.year - 1));
+    this.querySelector('.next')!.addEventListener('click', () => this.setNewYear(this.year + 1));
   }
 
-  setNewYear(year) {
+  setNewYear(year : number) {
     const parent = this.parentElement;
     const element = document.createElement('calendar-year');
-    element.setAttribute('year', year);
+    element.setAttribute('year', year.toString());
     this.remove();
-    parent.append(element);
+    parent!.append(element);
   }
 
   static get observedAttributes() {
     return ['year'];
   }
 
-  attributeChangedCallback(name, oldValue, newValue) {
+  attributeChangedCallback(name : string, oldValue : string, newValue : string) {
     if (name === 'year') {
       this.year = Number(newValue);
     }
   }
 
-  static set year(y) {
+  static set year(y : number) {
     this.year = y;
   }
 
@@ -93,4 +95,4 @@ export class CalendarYear extends HTMLElement {
 
 }
 
-customElements.define('calendar-year', CalendarYear);
+// customElements.define('calendar-year', CalendarYear);

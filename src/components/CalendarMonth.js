@@ -1,15 +1,25 @@
-import './CalendarDay.mjs';
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+import './CalendarDay.js';
 const MONTH_NAME = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-const paddingDays = day => (day === 0) ? 6 : day - 1;
+
+const paddingDays = day => day === 0 ? 6 : day - 1;
 
 export class CalendarMonth extends HTMLElement {
-
   constructor() {
     super();
+
+    _defineProperty(this, "today", void 0);
+
+    _defineProperty(this, "month", void 0);
+
+    _defineProperty(this, "year", void 0);
+
+    _defineProperty(this, "maxDay", void 0);
+
     this.today = new Date();
-    this.month = this.getAttribute('month') || this.today.getMonth() + 1;
-    this.year = this.getAttribute('year') || this.today.getFullYear();
+    this.month = Number(this.getAttribute('month')) || this.today.getMonth() + 1;
+    this.year = Number(this.getAttribute('year')) || this.today.getFullYear();
     this.maxDay = new Date(this.year, this.month, 0).getDate();
   }
 
@@ -51,20 +61,25 @@ export class CalendarMonth extends HTMLElement {
     `;
   }
 
-  isToday(day, month) { return day == this.today.getDate() && month == this.today.getMonth() + 1; }
-  isTodayProp(day) { return this.isToday(day, this.month) ? 'today' : ''; }
+  isToday(day, month) {
+    return day == this.today.getDate() && month == this.today.getMonth() + 1;
+  }
+
+  isTodayProp(day) {
+    return this.isToday(day, this.month) ? 'today' : '';
+  }
 
   getDays() {
-
     // padding days
     const firstDOW = new Date(this.year, this.month - 1, 1).getDay();
     const pad = paddingDays(firstDOW);
     const days = [];
+
     for (let i = 0; i < pad; i++) {
       days.push('<div class="block"></div>');
-    }
+    } // month days
 
-    // month days
+
     for (let i = 1; i <= this.maxDay; i++) {
       const weekday = (firstDOW + (i - 1)) % 7;
       days.push(`<calendar-day day="${i}" dow="${weekday}" ${this.isTodayProp(i)}></calendar-day>`);
@@ -73,6 +88,4 @@ export class CalendarMonth extends HTMLElement {
     return days.join('');
   }
 
-}
-
-customElements.define('calendar-month', CalendarMonth);
+} // customElements.define('calendar-month', CalendarMonth);
