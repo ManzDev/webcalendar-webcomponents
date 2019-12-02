@@ -2,17 +2,12 @@
   "name": "webcalendar",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "init:ts": "tsc --init --declaration --allowSyntheticDefaultImports --target esnext --outDir lib",
-    "dev": "npm-run-all -p dev:*",
-    "dev:babel": "babel --watch src -x '.ts' --out-dir src",
-    "dev:live": "live-server src",
+    "dev": "webpack-dev-server --env.MODE=development --open",
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch",
-    "build": "npm-run-all build:*",
-    "build:babel": "babel src -x '.ts' --out-dir src",
-    "build:rsync": "rsync -av src dist --exclude '*.ts'"
+    "build": "webpack --env.MODE=production && live-server dist"
   },
   "keywords": [],
   "author": "",
@@ -23,15 +18,23 @@
     "@babel/plugin-proposal-class-properties": "^7.7.4",
     "@babel/plugin-proposal-object-rest-spread": "^7.7.4",
     "@babel/preset-typescript": "^7.7.4",
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^5.0.5",
     "eslint": "^6.6.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
     "live-server": "^1.2.1",
     "npm-run-all": "^4.1.5",
     "prettier": "^1.19.1",
-    "typescript": "^3.7.2"
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.2",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0"
   }
 }
